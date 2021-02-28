@@ -1,0 +1,61 @@
+version: '3'
+
+services:
+  backend:
+    container_name: acc-fmenemo-backend
+    depends_on:
+      - mariadb
+    build:
+      context: .
+      dockerfile: ./packages/backend/dockerfile
+    volumes:
+      - ./packages/backend:/app/packages/backend
+      - /app/packages/backend/node_modules
+    ports:
+      - 3000:3000
+    command: npm run --prefix packages/backend serve
+
+  subscriptions:
+    container_name: acc-fmenemo-subscriptions
+    depends_on:
+      - mariadb
+    build:
+      context: .
+      dockerfile: ./packages/subscriptions/dockerfile
+    volumes:
+      - ./packages/subscriptions:/app/packages/subscriptions
+      - /app/packages/subscriptions/node_modules
+    ports:
+      - 3001:3001
+    command: npm run --prefix packages/subscriptions serve
+
+  mails:
+    container_name: acc-fmenemo-mails
+    depends_on:
+      - mariadb
+    build:
+      context: .
+      dockerfile: ./packages/mails/dockerfile
+    volumes:
+      - ./packages/mails:/app/packages/mails
+      - /app/packages/mails/node_modules
+    ports:
+      - 3002:3002
+    command: npm run --prefix packages/mails serve
+
+  mariadb:
+    container_name: acc-fmenemo-mariadb
+    image: mariadb
+    restart: always
+    environment:
+      - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      - GOSU_VERSION=1.10
+      - GPG_KEYS=177F4010FE56CA3336300305F1656F24C74CD1D8
+      - MARIADB_MAJOR=10.4
+      - MARIADB_VERSION=1:10.4.6+maria~bionic
+      - MYSQL_ROOT_PASSWORD=root
+      - TZ=Europe/Madrid
+    ports:
+      - 3306:3306
+    volumes:
+      - ~/Documents/mariadb:/var/lib/mysql

@@ -1,0 +1,51 @@
+{
+  "name": "mails",
+  "version": "0.0.0",
+  "description": "mails microservice",
+  "author": "Fran Menéndez Moya <fmenendezmoya@gmail.com>",
+  "homepage": "",
+  "license": "MIT",
+  "scripts": {
+    "serve": "NODE_ENV=DEV nodemon --inspect",
+    "build": "rm -rf dist && tsc && npm run build:package",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "build:package": "rm -rf package && mkdir package && npm run build:folders",
+    "build:folders": "mkdir package/packages && mkdir package/packages/mails && npm run build:dist",
+    "build:dist": "cp -r dist package/. && cp package*.json package/packages/mails/. && npm run build:root",
+    "build:root": "cp ../../package*.json package/. && cp ../../lerna.json package/.",
+    "lint": "tslint -p tsconfig.json -c tslint.json",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "typeorm": "./node_modules/.bin/ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
+  },
+  "dependencies": {
+    "nodemailer": "^6.5.0"
+  },
+  "devDependencies": {
+    "@types/nodemailer": "^4.6.0",
+    "nodemon": "^2.0.7",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "setupFiles": [
+      "./jest-setup.js"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.(tsx?)$": "ts-jest"
+    },
+    "testRegex": "test/.*\\.spec.ts",
+    "collectCoverageFrom": [
+      "src/**/*.{js,ts}"
+    ]
+  }
+}

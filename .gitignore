@@ -1,0 +1,28 @@
+.idea/
+node_modules/
+build/
+tmp/
+temp/
+package/
+dist/
+logs/*
+.history
+static/private/tickets/*/*
+static/public/mails/*/*
+static/private/banners/*/*
+static/private/partners-validation/*/*
+static/private/partners-creation/*
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# System Files
+*.DS_Store
+.DS_Store
+Thumbs.db
+
+!/**/.gitkeep

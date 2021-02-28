@@ -1,0 +1,18 @@
+FROM node:10-alpine
+# WORKDIR specifies the directory our
+# application's code will live within
+WORKDIR /app
+
+RUN apk --no-cache --virtual build-dependencies add \
+  python \
+  make \
+  g++
+
+RUN npm i lerna -g --loglevel notice
+
+COPY packages/subscriptions ./packages/subscriptions
+COPY packages/tsconfig.json ./packages
+COPY package.json .
+COPY lerna.json .
+
+RUN lerna bootstrap --hoist --ci

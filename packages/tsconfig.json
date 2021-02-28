@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "noImplicitAny": false,
+    "removeComments": true,
+    "noLib": false,
+    "allowSyntheticDefaultImports": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es2017",
+    "sourceMap": true,
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "baseUrl": "./",
+    "paths": {
+      "@subscriptions": ["subscriptions/src/subscriptions/index.ts"]
+    }
+  }
+}

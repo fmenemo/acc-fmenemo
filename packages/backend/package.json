@@ -1,0 +1,65 @@
+{
+  "name": "backend",
+  "version": "0.0.0",
+  "description": "public backend microservice",
+  "author": "Fran Menéndez Moya <fmenendezmoya@gmail.com>",
+  "homepage": "",
+  "license": "MIT",
+  "scripts": {
+    "serve": "NODE_ENV=DEV nodemon --inspect",
+    "build": "rm -rf dist && tsc && npm run build:package",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "build:package": "rm -rf package && mkdir package && npm run build:folders",
+    "build:folders": "mkdir package/packages && mkdir package/packages/backend && npm run build:dist",
+    "build:dist": "cp -r dist package/. && cp package*.json package/packages/backend/. && npm run build:root",
+    "build:root": "cp ../../package*.json package/. && cp ../../lerna.json package/.",
+    "lint": "tslint -p tsconfig.json -c tslint.json",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "typeorm": "./node_modules/.bin/ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
+  },
+  "dependencies": {
+    "@nestjs/passport": "^7.1.5",
+    "@nestjs/jwt": "^7.1.0",
+    "@nestjs/typeorm": "^7.1.5",
+    "@nestjs/swagger": "^4.7.15",
+    "bcrypt": "5.0.1",
+    "jsonwebtoken": "^8.5.1",
+    "mysql": "^2.18.1",
+    "passport": "0.4.1",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
+    "swagger-ui-express": "^4.1.6",
+    "typeorm": "^0.2.31"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "2.0.0",
+    "@types/jsonwebtoken": "7.2.7",
+    "@types/passport-jwt": "^3.0.1",
+    "@types/passport-local": "^1.0.33",
+    "nodemon": "^2.0.7",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "setupFiles": [
+      "./jest-setup.js"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.(tsx?)$": "ts-jest"
+    },
+    "testRegex": "test/.*\\.spec.ts",
+    "collectCoverageFrom": [
+      "src/**/*.{js,ts}"
+    ]
+  }
+}
